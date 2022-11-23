@@ -1,9 +1,14 @@
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize("railway", "root", "FeKyWRdr1jfcJ2JwRbQF", {
-  host: "containers-us-west-137.railway.app",
-  dialect: "mysql",
-});
+const db = new Sequelize(
+  "freedb_auth_db",
+  "freedb_auth_db_user",
+  "p899H4K9Fa&XWYT",
+  {
+    host: "sql.freedb.tech",
+    dialect: "mysql",
+  }
+);
 
 db.authenticate()
   .then(() => {
