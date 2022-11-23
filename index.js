@@ -32,12 +32,12 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    credentials: true,
-    origin: "https://loqumi-auth-app.herokuapp.com",
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: "https://loqumi-auth-app.herokuapp.com",
+//   })
+// );
 
 var allowCrossDomain = function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -46,12 +46,11 @@ var allowCrossDomain = function (req, res, next) {
   next();
 };
 
-app(function () {
-  app.use(allowCrossDomain);
-  app.use(express.json());
-  app.use(UserRoute);
-  app.use(AuthRoute);
-});
+app.use(allowCrossDomain);
+app.use(express.json());
+
+app.use(UserRoute);
+app.use(AuthRoute);
 
 store.sync();
 
