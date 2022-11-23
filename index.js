@@ -46,7 +46,7 @@ var allowCrossDomain = function (req, res, next) {
   next();
 };
 
-app.configure(function () {
+app(function () {
   app.use(allowCrossDomain);
   app.use(express.json());
   app.use(UserRoute);
