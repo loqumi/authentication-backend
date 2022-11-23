@@ -35,7 +35,7 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "https://loqumi-auth-app.herokuapp.com",
   })
 );
 app.use(express.json());
