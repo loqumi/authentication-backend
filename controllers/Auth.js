@@ -20,6 +20,7 @@ export const Login = async (req, res) => {
     .json({ uuid, name, email });
 };
 export const Me = async (req, res) => {
+  console.log(req.cookies)
   const { token } = req.cookies;
   if (!token) {
     return res.status(401).json({ msg: "Please login to your account!" });
