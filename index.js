@@ -17,6 +17,14 @@ const corsConfig = {
     credentials: true,
     origin: true,
 };
+
+app.use(express.session({
+  secret: 'test',
+  cookie: {
+    secure: true
+  }            
+}));
+
 app.use(cors(corsConfig));
 app.use(cookieParser());
 app.use(express.json());
