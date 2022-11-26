@@ -6,6 +6,7 @@ import db from "./config/Database.js";
 import SequelizeStore from "connect-session-sequelize";
 import UserRoute from "./routes/UserRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -22,56 +23,25 @@ const store = new sessionStore({
 
 app.use(
   session({
-    secret: "kdjskllkmckzlncjk23u8921uijcxlcjkjc89sdjsadjlj389123892nuc8ah9ry3",
+    secret: process.env.SESS_SECRET,
     resave: false,
     saveUninitialized: true,
     store: store,
-    cookie: {
-      secure: "auto",
-    },
   })
 );
 
-app.use(
-  cors({
-    credentials: true,
-    origin: "https://loqumi-auth-app.herokuapp.com",
-  })
-);
-
-app.use(function (req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://loqumi-auth-app.web.app"
-  );
-
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-
-  // Request headers you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader("Access-Control-Allow-Credentials", true);
-
-  // Pass to next layer of middleware
-  next();
-});
-
+const corsConfig = {
+  credentials: true,
+  origin: true,
+};
+app.use(cors(corsConfig));
+app.use(cookieParser());
 app.use(express.json());
 app.use(UserRoute);
 app.use(AuthRoute);
 
 store.sync();
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.APP_PORT, () => {
   console.log("Server up and running...");
 });
