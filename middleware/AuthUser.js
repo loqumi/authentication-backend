@@ -10,7 +10,7 @@ export const verifyUser = async (req, res, next) => {
       uuid: token,
     },
   });
-  if (user.status) return res.status(406).json({ msg: "you are banned" });
+  if (Number(user?.status)) return res.status(406).json({ msg: "You are banned" });
   if (!user) return res.status(404).json({ msg: "user not found" });
   req.userId = user.id;
   next();
