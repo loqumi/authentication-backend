@@ -15,7 +15,7 @@ export const Login = async (req, res) => {
   const name = user.name;
   const email = user.email;
   res
-    .cookie("token", user.uuid, { httpOnly: true, SameSite: "None", Secure: true })
+    .cookie("token", user.uuid, { httpOnly: true, sameSite: "none", secure: true })
     .status(200)
     .json({ uuid, name, email });
 };
