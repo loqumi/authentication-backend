@@ -6,6 +6,7 @@ import db from "./config/Database.js";
 import SequelizeStore from "connect-session-sequelize";
 import UserRoute from "./routes/UserRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
@@ -22,31 +23,20 @@ const store = new sessionStore({
 
 app.use(
   session({
-    secret: "kdjskllkmckzlncjk23u8921uijcxlcjkjc89sdjsadjlj389123892nuc8ah9ry3",
+    secret: process.env.SESS_SECRET,
     resave: false,
     saveUninitialized: true,
     store: store,
-    cookie: {
-      secure: "auto",
-    },
   })
 );
-
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: "https://loqumi-auth-app.herokuapp.com",
-//   })
-// );
 
 const corsConfig = {
     credentials: true,
     origin: true,
 };
 app.use(cors(corsConfig));
-
+app.use(cookieParser());
 app.use(express.json());
-
 app.use(UserRoute);
 app.use(AuthRoute);
 

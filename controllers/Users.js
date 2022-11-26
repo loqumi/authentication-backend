@@ -67,7 +67,6 @@ export const getUserById = async (req, res) => {
 export const createUser = async (req, res) => {
   const { name, email, password, confPassword } = req.body;
   const emailExist = await getUserByEmail(email);
-  console.log(emailExist);
   if (emailExist) return res.status(409).json({ msg: "Email already used" });
   if (password !== confPassword)
     return res
@@ -88,7 +87,6 @@ export const createUser = async (req, res) => {
 
 export const blockUsers = (req, res) => {
   const data = req.body;
-  console.log({ data });
   Promise.all(data.map(updateUserInfo))
     .then(() => res.status(200).json({ msg: "all complete" }))
     .catch((error) => res.status(500).json({ msg: error.message }));
