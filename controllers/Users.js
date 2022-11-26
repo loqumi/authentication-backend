@@ -29,7 +29,7 @@ const updateUserInfo = (data) => {
   return User.update(
     {
       ...data,
-      status: 1,
+      status: Number(data.status),
     },
     {
       where: {
