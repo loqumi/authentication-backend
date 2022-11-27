@@ -9,36 +9,20 @@ dotenv.config();
 
 const app = express();
 
-const sessionStore = SequelizeStore(session.Store);
-
-const store = new sessionStore({
-  db: db,
-});
-
 (async () => {
   await db.sync();
 })();
-
-app.use(
-  session({
-    secret: process.env.SESS_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    store: store,
-  })
-);
 
 const corsConfig = {
   credentials: true,
   origin: true,
 };
+
 app.use(cors(corsConfig));
 app.use(cookieParser());
 app.use(express.json());
 app.use(UserRoute);
 app.use(AuthRoute);
-
-store.sync();
 
 app.listen(process.env.PORT, () => {
   console.log("Server up and running...");
