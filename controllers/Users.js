@@ -25,11 +25,25 @@ const getUserByEmail = async (email) => {
   });
 };
 
-const updateUserInfo = (data) => {
+const updateUserBlockInfo = (data) => {
   return User.update(
     {
       ...data,
-      status: Number(data.status),
+      status: 1,
+    },
+    {
+      where: {
+        uuid: data.uuid,
+      },
+    }
+  );
+};
+
+const updateUserUnBlockInfo = (data) => {
+  return User.update(
+    {
+      ...data,
+      status: 0,
     },
     {
       where: {
@@ -87,7 +101,14 @@ export const createUser = async (req, res) => {
 
 export const blockUsers = (req, res) => {
   const data = req.body;
-  Promise.all(data.map(updateUserInfo))
+  Promise.all(data.map(updateUserBlockInfo))
+    .then(() => res.status(200).json({ msg: "all complete" }))
+    .catch((error) => res.status(500).json({ msg: error.message }));
+};
+
+export const unBlockUsers = (req, res) => {
+  const data = req.body;
+  Promise.all(data.map(updateUserUnBlockInfo))
     .then(() => res.status(200).json({ msg: "all complete" }))
     .catch((error) => res.status(500).json({ msg: error.message }));
 };

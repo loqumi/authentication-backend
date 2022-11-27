@@ -7,7 +7,8 @@ export const Login = async (req, res) => {
       email: req.body.email,
     },
   });
-  if (user?.status) return res.status(406).json({ msg: "You are banned" });
+  if (Number(user?.status))
+    return res.status(406).json({ msg: "You are banned" });
   if (!user) return res.status(404).json({ msg: "user not found" });
   const match = await argon2.verify(user.password, req.body.password);
   if (!match) return res.status(400).json({ msg: "wrong password" });
@@ -15,7 +16,11 @@ export const Login = async (req, res) => {
   const name = user.name;
   const email = user.email;
   res
-    .cookie("token", user.uuid, { httpOnly: true })
+    .cookie("token", user.uuid, {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    })
     .status(200)
     .json({ uuid, name, email });
 };
